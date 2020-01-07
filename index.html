@@ -1,0 +1,77 @@
+Skip to content
+Search or jump to…
+
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@rjtedge 
+1
+00rjtedge/vicsoftwoodplantations
+ Code Issues 0 Pull requests 0 Actions Projects 0 Wiki Security Insights Settings
+vicsoftwoodplantations/index.html
+@rjtedge rjtedge changed map to OSM
+8d0d4a5 on May 10, 2018
+52 lines (46 sloc)  1.55 KB
+  
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Victorian Softwood Plantation Finder</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="stylesheet" href="ol.css" type="text/css">
+    <link rel="stylesheet" href="fullmap.css" type="text/css">
+    <script src="ol.js"></script>
+  </head>
+  <body>
+   <div id="map" class="full-map"></div>
+       <script>
+	   
+      var vectorSource = new ol.source.Vector({
+        format: new ol.format.GeoJSON(),
+        url: function(extent) {
+          return 'https://services.land.vic.gov.au/catalogue/publicproxy/guest/dv_geoserver/wfs?&SERVICE=WFS&' +
+              'version=2.0.0&request=GetFeature&typename=datavic:VMLITE_PUBLIC_LAND_SOFTWOOD_SU5&' +
+              'outputFormat=application/json&srsname=urn:ogc:def:crs:EPSG::4326&' +
+              'bbox=' + extent.join(',') + ',EPSG:4326';
+        },
+        strategy: ol.loadingstrategy.bbox
+      });
+      var vector = new ol.layer.Vector({
+        source: vectorSource,
+        style: new ol.style.Style({
+          stroke: new ol.style.Stroke({
+            color: 'rgba(219,24,24,1.0)',
+            width: 2
+          })
+        })
+      });
+        var raster = new ol.layer.Tile({
+        source: new ol.source.OSM()
+		});
+      var map = new ol.Map({
+        layers: [raster, vector],
+        target: document.getElementById('map'),
+        view: new ol.View({
+          center: [16114148.5550,-4523237.5858],
+          maxZoom: 19,
+          zoom: 12
+        })
+      });
+  
+    </script>
+  </body>
+</html>
+© 2020 GitHub, Inc.
+Terms
+Privacy
+Security
+Status
+Help
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
